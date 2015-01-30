@@ -1,0 +1,11 @@
+Flask
+Flask-Bootstrap
+Flask-Mail
+Flask-Moment
+Flask-Session
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-Script
+config
+python-memcached

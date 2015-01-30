@@ -1,0 +1,6 @@
+swig
+python-dev
+libssl-dev
+
+Google Key Generator link
+https://console.developers.google.com/project

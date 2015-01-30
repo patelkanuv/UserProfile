@@ -1,0 +1,16 @@
+Flask
+Flask-Bootstrap
+Flask-Mail
+Flask-Moment
+Flask-Session
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-Script
+Flask-Testing
+Flask-Wtf
+config
+python-memcached
+rauth
+requests
+m2crypto
