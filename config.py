@@ -3,7 +3,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class Config:
+class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or '6b3549ce0bd972bab567612bc14c53c3'
     SESSION_TYPE = 'memcached'
     SESSION_COOKIE_NAME = 'SID'

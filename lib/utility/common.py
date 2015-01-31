@@ -21,7 +21,7 @@ def email_password(user, password, reset = False):
     if reset == True:
         subject  = 'Your Flasky account credentials are reset'
         
-    send_email(user.email, subject, template, user = user, password = password)
+    return send_email(user.email, subject, template, user = user, password = password)
 
 def send_email(to, subject, template, **kwargs):
     msg = Message(current_app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + subject,
@@ -30,3 +30,5 @@ def send_email(to, subject, template, **kwargs):
     msg.html = render_template(template + '.html', **kwargs)
     if not current_app.config['TESTING']:
         mail.send(msg)
+    else:
+        return msg

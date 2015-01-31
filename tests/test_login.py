@@ -34,6 +34,15 @@ class UserViewsTests(BasicsTestCase):
         response = self.client.post(url_for('main.login'), follow_redirects=True, 
                                     data={'email': 'joe1@joes.com', 'password': 'k12345'})
         self.assertTrue('You have not confirmed your account yet' in response.data)
+    
+    def test_users_cant_login_with_wrong_credentials(self):       
+        response = self.client.post(url_for('main.login'), follow_redirects=True, 
+                                    data={'email': 'joe@joes.com', 'password': '12345'})
+        self.assertTrue('Invalid username or password' in response.data)
+        
+        response = self.client.post(url_for('main.login'), follow_redirects=True, 
+                                    data={'email': '1joe@joes.com', 'password': 'k12345'})
+        self.assertTrue('Invalid username or password' in response.data)
         
     def test_users_can_login_unconfirmed_confirmed(self):
         u = User(username='Joe', email='joe2@joes.com', password='k12345', confirmed = False)
@@ -63,4 +72,8 @@ class UserViewsTests(BasicsTestCase):
         response = self.client.post(url_for('main.resend_credentials'), data={'email': 'krishna@joes.com'},
                                     follow_redirects=True)
         self.assertTrue('Your new credentials has been sent to your registered email' in response.data)
+        
+        response = self.client.post(url_for('main.resend_credentials'), data={'email': 'krishna1@joes.com'},
+                                    follow_redirects=True)
+        self.assertTrue('No such registered user' in response.data)
         

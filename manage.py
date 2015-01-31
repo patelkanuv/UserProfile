@@ -21,8 +21,26 @@ manager.add_command('db', MigrateCommand)
 def test():
     """Run the unit tests."""
     import unittest
+    from coverage import coverage
+    # Track Code Coverage Report
+    cov = coverage(branch = True, omit = ['/home/kanu/Python/venv/*', 'tests/*'])
+    cov.start()
+
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+    # Display the Code Coverage Report
+    cov.stop()
+    # I'm not currently saving the report, but I can change my mind in the future
+    #cov.save()
+    
+    print "\n\nCoverage Report:\n"
+    cov.report()
+    
+    # I'm also not currently using the HTML version, but may want to later
+    #print "HTML version: " + os.path.join(basedir, 'tmp/coverage/index.html')
+    #cov.html_report(directory='tmp/coverage')
+    cov.erase()
+    
 if __name__ == '__main__':
     manager.run()

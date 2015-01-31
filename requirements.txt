@@ -14,3 +14,5 @@ python-memcached
 rauth
 requests
 m2crypto
+coverage
+wtforms_test

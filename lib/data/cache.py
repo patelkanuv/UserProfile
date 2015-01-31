@@ -27,8 +27,3 @@ class MemCache():
         memcached server. Lazy delete
         """
         self.cache_server.delete(key)
-    
-if __name__ == '__main__':
-    cache = MemCache()
-    cache.set('name', 'Kanu Patel')
-    print cache.get('name')
