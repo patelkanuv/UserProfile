@@ -16,6 +16,7 @@ class Config(object):
     #MAIL_USE_TLS = True
     #MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     #MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    WTF_CSRF_ENABLED = False
     OAUTH_CREDENTIALS = {
         'facebook': {
             'id': '1548157722106884',
@@ -41,7 +42,6 @@ class DevelopmentConfig(Config):
     
 class TestingConfig(Config):
     TESTING = True
-    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
     'sqlite:///' + os.path.join(basedir, 'data-test.db')
     

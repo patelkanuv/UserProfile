@@ -23,7 +23,8 @@ def test():
     import unittest
     from coverage import coverage
     # Track Code Coverage Report
-    cov = coverage(branch = True, omit = ['/home/kanu/Python/venv/*', 'tests/*'])
+    #cov = coverage(branch = True, omit = ['/home/kanu/Python/venv/*', 'tests/*'])
+    cov = coverage(branch = True, include = ['app/*', 'lib/*'])
     cov.start()
 
     tests = unittest.TestLoader().discover('tests')
