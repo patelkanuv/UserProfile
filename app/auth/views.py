@@ -41,7 +41,7 @@ def reset_password():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(email = form.email.data,
+        user = User(email    = form.email.data,
                     username = form.username.data,
                     password = form.password.data)
         db.session.add(user)
@@ -68,7 +68,8 @@ def confirm(token):
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email('auth/email/confirm', 'Confirm Your Account', user, token=token)
+    send_email(current_user.email, 'Confirm Your Account', 'auth/email/confirm', 
+               user = current_user, token = token)
     flash('A new confirmation email has been sent to you by email.')
     return redirect(url_for('main.index'))
 
@@ -88,7 +89,7 @@ def oauth_callback(provider):
     if social_id is None:
         flash('Authentication failed.')
         return redirect(url_for('main.index'))
-    user = User.query.filter_by(email = email).first()
+    user = User.query.filter_by(email = email.lower()).first()
     if not user:
         password = random_password()
         user = User(username = username, email = email, password = password, confirmed = True)

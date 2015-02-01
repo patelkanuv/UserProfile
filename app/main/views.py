@@ -22,12 +22,12 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form = form)
 
 @main.route('/logout')
 @login_required
@@ -41,7 +41,7 @@ def resend_credentials():
     form = ForgetPasswordForm()
     if form.validate_on_submit():
         password = random_password()
-        user = User.query.filter_by(email = form.email.data).first()
+        user = User.query.filter_by(email = form.email.data.lower()).first()
         if not user:
             flash('No such registered user.')
             return redirect(url_for('main.index'))
@@ -51,4 +51,4 @@ def resend_credentials():
         email_password(user = user, password = password, reset=True)
         flash('Your new credentials has been sent to your registered email.')
         return redirect(url_for('main.index'))
-    return render_template('auth/forget_password.html', form=form)
+    return render_template('auth/forget_password.html', form = form)
