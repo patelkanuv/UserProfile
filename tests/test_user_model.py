@@ -37,4 +37,21 @@ class UserModelTestCase(BasicsTestCase):
         token = u.generate_confirmation_token()
         self.assertTrue(token is not None)
         self.assertTrue(u.confirm(token))
+        print u
         
+    def test_verify_password(self):
+        u = User(id = 2, email = 'abc@example.com', password='cat123', username = 'Test')
+        self.assertTrue(u.verify_password('cat123'))
+        u.set_password('CAT123')
+        self.assertTrue(u.verify_password('CAT123'))
+        
+    def test_confirm_token_exception(self ):
+        u = User(id = 2, email = 'abc@example.com', password='cat123', username = 'Test')
+        token = u.generate_confirmation_token()
+        self.assertFalse(u.confirm(token+'abc'))
+        
+    def test_confirm_token_invalid(self ):
+        u = User(id = 2, email = 'abc@example.com', password='cat123', username = 'Test')
+        token = u.generate_confirmation_token()
+        u.id = 5
+        self.assertFalse(u.confirm(token))

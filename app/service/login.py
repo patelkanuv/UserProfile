@@ -24,8 +24,8 @@ def service_index():
         }
     else:
         data = { 'sid' : session.sid,
-                'user_signed_in' : False,
-                'message' : 'Please sign in.'
+                 'user_signed_in' : False,
+                 'message' : 'Please sign in.'
         }
     return jsonify(data)
 
@@ -38,7 +38,7 @@ def service_login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('service.service_index'))
-        data = { 'error':'Invalid username or password.'}
+        data = { 'error':['Invalid username or password.']}
     else:
         data = { 'error' : form.errors }
     return jsonify(data)
@@ -51,4 +51,24 @@ def service_logout():
              'user_signed_in' : False,
              'message' : 'You have been logged out.'
         }
+    return jsonify(data)
+
+@service.route('/resend/credentials', methods=['GET', 'POST'])
+def service_resend_credentials():
+    data = dict()
+    form = ForgetPasswordForm()
+    if form.validate_on_submit():
+        password = random_password()
+        user = User.query.filter_by(email = form.email.data.lower()).first()
+        if not user:
+            data = { 'error' : ['No such registered user.'], 'success': False }
+            return jsonify(data)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        email_password(user = user, password = password, reset=True)
+        data = { 'message' : 'Your new credentials has been sent to your registered email.',
+                 'success' : True}
+    else:
+        data = { 'error' : form.errors, 'success': False }
     return jsonify(data)

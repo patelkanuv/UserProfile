@@ -57,5 +57,26 @@ class UserLoginServiceTests(BasicsTestCase):
         response = client.get(url_for('service.service_logout'), content_type='application/json',  follow_redirects=True)
         self.assertTrue(': false' in response.data )
         
+    def test_users_can_resend_credentials(self):
+        response = self.client.post(url_for('service.service_resend_credentials'),
+                                    data={'email': 'ghjoe@joes.com'})
+        self.assertTrue('No such registered user.' in response.data )
+        
+        u = User(username='Joe', email='ghjoe@joes.com', password='k12345', confirmed = True)
+        db.session.add(u)
+        db.session.commit()
+        
+        response = self.client.post(url_for('service.service_resend_credentials'),
+                                    data={'email': 'joes.com'})
+        self.assertTrue('Invalid email address.' in response.data )
+        
+        response = self.client.post(url_for('service.service_resend_credentials'),
+                                    data={'email': ''})
+        self.assertTrue('This field is required.' in response.data )
+        
+        response = self.client.post(url_for('service.service_resend_credentials'),
+                                    data={'email': 'ghjoe@joes.com'})
+        self.assertTrue('Your new credentials has been sent to your registered email.' in response.data )
+        
 if __name__ == '__main__':
     unittest.main()
