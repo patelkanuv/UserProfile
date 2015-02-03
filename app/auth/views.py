@@ -10,12 +10,18 @@ from . import auth
 from ..main import main
 from ..models import User
 from .forms import RegistrationForm, ResetPasswordForm
-from app import db
+from app import db, login_manager
 
 @auth.before_app_request
 def before_request():
+    if request.content_type != u'application/json':
+        login_manager.login_view = 'main.login'
+    else:
+        login_manager.login_view = 'service.service_login'
+    
     #print session.sid
     if current_user.is_authenticated() and not current_user.confirmed \
+        and request.content_type != u'application/json' \
         and request.endpoint[:5] != 'auth.':
         return redirect(url_for('auth.unconfirmed'))
 
@@ -24,18 +30,6 @@ def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
-
-@auth.route('/reset/password', methods=['GET', 'POST'])
-@login_required
-def reset_password():
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        current_user.set_password(form.password.data)
-        db.session.add(current_user)
-        db.session.commit()
-        flash('Your password changed successfully.')
-        return redirect(url_for('main.index'))
-    return render_template('auth/reset_password.html', form=form)
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -63,6 +57,18 @@ def confirm(token):
     else:
         flash('Your confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
+
+@auth.route('/reset/password', methods=['GET', 'POST'])
+@login_required
+def reset_password():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        current_user.set_password(form.password.data)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Your password changed successfully.')
+        return redirect(url_for('main.index'))
+    return render_template('auth/reset_password.html', form=form)
 
 @auth.route('/resendConfirmToken')
 @login_required

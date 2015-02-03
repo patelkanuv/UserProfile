@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import os
+import json
+
 from datetime import datetime
 from flask import session, request, redirect, url_for, flash, jsonify
 from flask.ext.login import current_user, login_user, login_required, logout_user
@@ -29,10 +31,17 @@ def service_index():
         }
     return jsonify(data)
 
-@service.route('/login', methods=['POST'])
+@service.route('/login', methods=['GET','POST'])
 def service_login():
+    
+    params = dict()
+    try:
+        params = json.loads(request.get_data(cache=False, as_text=True))
+    except Exception:
+        return redirect(url_for('service.service_index'))
+    
     data = dict()
-    form = LoginForm()
+    form = LoginForm.from_json(params)
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
@@ -43,7 +52,7 @@ def service_login():
         data = { 'error' : form.errors }
     return jsonify(data)
 
-@service.route('/logout', methods=['GET', 'POST'])
+@service.route('/logout')
 @login_required
 def service_logout():
     logout_user()
@@ -55,8 +64,9 @@ def service_logout():
 
 @service.route('/resend/credentials', methods=['GET', 'POST'])
 def service_resend_credentials():
+    params = json.loads(request.get_data(cache=False, as_text=True))
     data = dict()
-    form = ForgetPasswordForm()
+    form = ForgetPasswordForm.from_json(params)
     if form.validate_on_submit():
         password = random_password()
         user = User.query.filter_by(email = form.email.data.lower()).first()

@@ -20,7 +20,6 @@ def index():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    #print request.content_type
     if request.content_type == u'application/json':
         return redirect(url_for('service.service_index'))
     form = LoginForm()

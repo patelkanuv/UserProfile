@@ -8,7 +8,9 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.session import Session
 from config import config
+import wtforms_json
 
+wtforms_json.init()
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -17,7 +19,7 @@ db = SQLAlchemy()
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
-login_manager.login_view = 'main.login'
+login_manager.login_view = 'service.service_login'
 
 
 def create_app(config_name):
