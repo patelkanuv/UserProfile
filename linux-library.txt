@@ -1,3 +1,4 @@
+memcached
 swig
 python-dev
 libssl-dev
