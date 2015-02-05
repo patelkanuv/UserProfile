@@ -11,7 +11,7 @@ from app import create_app
 from app.auth.forms import LoginForm, ForgetPasswordForm
 from . import service
 from .. import db
-from ..models import User
+from app.models.user import User
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 

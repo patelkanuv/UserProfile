@@ -10,7 +10,7 @@ from lib.externalAuth.oauth import OAuthSignIn
 from lib.utility.common import random_password, email_password, send_email
 from . import service
 from ..main import main
-from ..models import User
+from app.models.user import User
 from app.auth.forms import RegistrationForm, ResetPasswordForm
 from app import db
 

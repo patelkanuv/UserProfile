@@ -16,3 +16,4 @@ requests
 m2crypto
 coverage
 wtforms_test
+wtforms_json

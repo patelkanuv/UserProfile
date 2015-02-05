@@ -8,7 +8,7 @@ from lib.externalAuth.oauth import OAuthSignIn
 from lib.utility.common import random_password, email_password, send_email
 from . import auth
 from ..main import main
-from ..models import User
+from app.models.user import User
 from .forms import RegistrationForm, ResetPasswordForm
 from app import db, login_manager
 

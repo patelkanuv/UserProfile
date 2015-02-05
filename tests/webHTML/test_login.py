@@ -2,7 +2,7 @@
 
 from flask import url_for
 from tests.test_basics import BasicsTestCase
-from app.models import User
+from app.models.user import User
 from app import db
 
 class UserViewsTests(BasicsTestCase):

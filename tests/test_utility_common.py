@@ -2,7 +2,7 @@
 
 from lib.utility.common import random_password, email_password, send_email
 from tests.test_basics import BasicsTestCase
-from app.models import User
+from app.models.user import User
 from flask.ext.mail import Message
 
 class UtilityCommonTestCase(BasicsTestCase):
