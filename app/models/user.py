@@ -11,12 +11,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(64), index=True)
-    password_hash = db.Column(db.String(128))
-    confirmed = db.Column(db.Boolean, default = False)
+    __tablename__   = 'users'
+    id              = db.Column(db.Integer, primary_key = True)
+    email           = db.Column(db.String(64), unique=True, index=True)
+    username        = db.Column(db.String(64), index=True)
+    password_hash   = db.Column(db.String(128))
+    confirmed       = db.Column(db.Boolean, default = False)
     
     def __str__(self):
         return '<User : ID %s Email %s confirmed %s>' % (self.id, self.email, self.confirmed)
