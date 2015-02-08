@@ -3,12 +3,27 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask.ext.login import UserMixin
-from flask import current_app
+from flask import current_app, session
 from app import login_manager, db
+from lib.data.user import UserCache
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@login_manager.request_loader
+def load_user_from_request(request):
+    sid = request.args.get('SID')
+    user_cache = UserCache()
+    user_id = user_cache.get_user_id(sid)
+    #print sid, " - ", user_id
+    if not user_id:
+        return None
+    user = User.query.get(int(user_id))
+    if user:
+        session.sid = sid
+        return user
+    return None
 
 class User(UserMixin, db.Model):
     __tablename__   = 'users'
@@ -36,7 +51,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
     
     #TODO, replace this with Memcached
-    def generate_confirmation_token(self, expiration = 3600):
+    def generate_confirmation_token(self, expiration = 86400):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
     

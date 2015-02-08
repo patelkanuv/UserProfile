@@ -12,6 +12,7 @@ from app.auth.forms import LoginForm, ForgetPasswordForm
 from . import service
 from .. import db
 from app.models.user import User
+from lib.data.user import UserCache
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -45,8 +46,10 @@ def service_login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
+            userCache = UserCache()
+            userCache.cache_user_id(user, session.sid)
             login_user(user, form.remember_me.data)
-            return redirect(request.args.get('next') or url_for('service.service_index'))
+            return redirect(request.args.get('next') or url_for('service.service_index', SID = session.sid))
         data = { 'error':['Invalid username or password.']}
     else:
         data = { 'error' : form.errors }
@@ -55,6 +58,10 @@ def service_login():
 @service.route('/logout')
 @login_required
 def service_logout():
+    sid = request.args.get('SID')
+    userCache = UserCache()
+    userCache.delete_user(sid)
+    
     logout_user()
     data = { 'sid' : session.sid,
              'user_signed_in' : False,

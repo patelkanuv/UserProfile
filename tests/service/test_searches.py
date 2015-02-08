@@ -20,7 +20,7 @@ class UserSearchesServiceTests(BasicsTestCase):
         response = self.client.post(url_for('service.service_login'),
                                     content_type='application/json',
                                     data = json.dumps({'email': 'searchesjoe@joes.com', 'password': 'k12345'}))
-        self.assert_redirects(response, url_for('service.service_index'))
+        self.assertTrue('/userapi/service/?SID' in response.data)
         
         response = self.client.get(url_for('service.service_searches'),
                                     content_type='application/json')

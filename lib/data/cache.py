@@ -12,18 +12,25 @@ class MemCache():
         This method is used to set a new value
         in the memcache server.
         """
-        self.cache_server.set(key, value, expiry)
+        if not key: return None
+        self.cache_server.set(self.decoded_string(key), value, expiry)
         
     def get(self, key):
         """
         This method is used to retrieve a value
         from the memcache server
         """
-        return self.cache_server.get(key)
+        if not key: return None
+        return self.cache_server.get(self.decoded_string(key))
     
     def delete(self, key):
         """
         This method is used to delete a value from the
         memcached server. Lazy delete
         """
-        self.cache_server.delete(key)
+        if not key: return None
+        self.cache_server.delete(self.decoded_string(key))
+        
+    def decoded_string(self, key):
+        new_key = key.encode('utf-8')
+        return new_key

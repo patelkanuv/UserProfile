@@ -7,6 +7,7 @@ from flask import current_app
 from flask.ext.mail import Message
 from flask import render_template
 
+
 def random_password(length=6):
     chars = string.ascii_uppercase + string.digits + string.ascii_lowercase
     password = ''
