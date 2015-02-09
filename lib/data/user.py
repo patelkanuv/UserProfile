@@ -7,10 +7,10 @@ class UserCache():
         self.cache = MemCache()
         self.namespace = 'UserCache:'
         
-    def cache_user_id(self, user, sid):
+    def cache_user(self, user, sid):
         self.cache.set(self.namespace+sid, user.id, 29 * 24 * 3600)
         #print sid, " set"
-    def get_user_id(self, sid):
+    def get_user(self, sid):
         #print "reading ", sid
         try:
             return self.cache.get(self.namespace+sid)

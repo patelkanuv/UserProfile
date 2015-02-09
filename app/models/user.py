@@ -15,7 +15,7 @@ def load_user(user_id):
 def load_user_from_request(request):
     sid = request.args.get('SID')
     user_cache = UserCache()
-    user_id = user_cache.get_user_id(sid)
+    user_id = user_cache.get_user(sid)
     #print sid, " - ", user_id
     if not user_id:
         return None

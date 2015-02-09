@@ -47,7 +47,7 @@ def service_login():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
             userCache = UserCache()
-            userCache.cache_user_id(user, session.sid)
+            userCache.cache_user(user, session.sid)
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('service.service_index', SID = session.sid))
         data = { 'error':['Invalid username or password.']}
