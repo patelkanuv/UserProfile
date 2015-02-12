@@ -25,13 +25,13 @@ def before_request():
         and request.endpoint[:5] != 'auth.':
         return redirect(url_for('auth.unconfirmed'))
 
-@auth.route('/unconfirmed')
+@auth.route('/unconfirmed/')
 def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
 
-@auth.route('/register', methods=['GET', 'POST'])
+@auth.route('/register/', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -58,7 +58,7 @@ def confirm(token):
         flash('Your confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
 
-@auth.route('/reset/password', methods=['GET', 'POST'])
+@auth.route('/reset/password/', methods=['GET', 'POST'])
 @login_required
 def reset_password():
     form = ResetPasswordForm()
@@ -70,7 +70,7 @@ def reset_password():
         return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)
 
-@auth.route('/resendConfirmToken')
+@auth.route('/resendConfirmToken/')
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()

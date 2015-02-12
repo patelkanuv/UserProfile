@@ -32,7 +32,7 @@ def service_index():
         }
     return jsonify(data)
 
-@service.route('/login', methods=['GET','POST'])
+@service.route('/login/', methods=['GET','POST'])
 def service_login():
     
     params = dict()
@@ -55,7 +55,7 @@ def service_login():
         data = { 'error' : form.errors }
     return jsonify(data)
 
-@service.route('/logout')
+@service.route('/logout/')
 @login_required
 def service_logout():
     sid = request.args.get('SID')
@@ -69,7 +69,7 @@ def service_logout():
         }
     return jsonify(data)
 
-@service.route('/resend/credentials', methods=['GET', 'POST'])
+@service.route('/resend/credentials/', methods=['GET', 'POST'])
 def service_resend_credentials():
     params = json.loads(request.get_data(cache=False, as_text=True))
     data = dict()

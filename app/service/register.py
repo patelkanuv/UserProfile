@@ -23,14 +23,14 @@ def before_request():
         and not re.search('service/auth', request.url):
         return redirect(url_for('service.unconfirmed'))
 
-@service.route('/auth/unconfirmed')
+@service.route('/auth/unconfirmed/')
 def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('service.service_index'))
     data = { 'error' : 'User is unconfirmed, access denied.', 'success': False }
     return jsonify(data)
 
-@service.route('/auth/register', methods=['GET', 'POST'])
+@service.route('/auth/register/', methods=['GET', 'POST'])
 def service_register():
     params = json.loads(request.get_data(cache=False, as_text=True))
     data = dict()
@@ -66,7 +66,7 @@ def service_confirm(token):
             success = False
     return jsonify({ 'success': success, 'message': message})
 
-@service.route('/auth/reset/password', methods=['POST'])
+@service.route('/auth/reset/password/', methods=['POST'])
 @login_required
 def service_reset_password():
     params = json.loads(request.get_data(cache=False, as_text=True))
@@ -81,7 +81,7 @@ def service_reset_password():
         data = { 'error' : form.errors, 'success': False }
     return jsonify(data)
 
-@service.route('/auth/resendConfirmToken')
+@service.route('/auth/resendConfirmToken/')
 @login_required
 def service_resend_confirmation():
     token = current_user.generate_confirmation_token()

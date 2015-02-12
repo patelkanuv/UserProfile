@@ -7,7 +7,7 @@ from app.models.user import User
 from . import service
 from .. import db
 
-@service.route('/searches')
+@service.route('/searches/')
 @login_required
 def service_searches():
     searches = list(result.serialize for result in current_user.searches)

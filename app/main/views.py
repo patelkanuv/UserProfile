@@ -18,7 +18,7 @@ def index():
     response = make_response(render_template('index.html', name = session.get('name')))
     return response
 
-@main.route('/login', methods=['GET', 'POST'])
+@main.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.content_type == u'application/json':
         return redirect(url_for('service.service_index'))
@@ -31,14 +31,14 @@ def login():
         flash('Invalid username or password.')
     return render_template('auth/login.html', form = form)
 
-@main.route('/logout')
+@main.route('/logout/')
 @login_required
 def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
 
-@main.route('/resend/credentials', methods=['GET', 'POST'])
+@main.route('/resend/credentials/', methods=['GET', 'POST'])
 def resend_credentials():
     form = ForgetPasswordForm()
     if form.validate_on_submit():
