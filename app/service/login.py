@@ -32,7 +32,7 @@ def service_index():
         }
     return jsonify(data)
 
-@service.route('/login/', methods=['GET','POST'])
+@service.route('/login/', methods=['POST'])
 def service_login():
     
     params = dict()
