@@ -21,16 +21,17 @@ def before_request():
     if current_user.is_authenticated() and not current_user.confirmed \
         and request.content_type == u'application/json' \
         and not re.search('service/auth', request.url):
-        return redirect(url_for('service.unconfirmed'))
+        return redirect(url_for('service.unconfirmed', SID = session.sid))
 
-@service.route('/auth/unconfirmed/')
+@service.route('/auth/unconfirmed/', methods=['GET', 'POST'])
 def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect(url_for('service.service_index'))
-    data = { 'error' : 'User is unconfirmed, access denied.', 'success': False }
+    data = { 'error' : { 'message' : ['User is unconfirmed, access denied.']}, 'success': False,
+            'SID' : session.sid}
     return jsonify(data)
 
-@service.route('/auth/register/', methods=['GET', 'POST'])
+@service.route('/auth/register/', methods=['POST'])
 def service_register():
     params = json.loads(request.get_data(cache=False, as_text=True))
     data = dict()
@@ -43,7 +44,7 @@ def service_register():
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account',
-            'auth/email/confirm', user=user, token=token)
+            'auth/email/confirm_service', user=user, token=token)
         data = { 'message' : 'A confirmation email has been sent to you by email.',
                  'success': True }
     else:
@@ -85,7 +86,7 @@ def service_reset_password():
 @login_required
 def service_resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm Your Account', 'auth/email/confirm', 
+    send_email(current_user.email, 'Confirm Your Account', 'auth/email/confirm_service', 
                user = current_user, token = token)
     data = {'message' : 'A new confirmation email has been sent to you by email.',
             'success': True }

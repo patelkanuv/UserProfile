@@ -50,9 +50,9 @@ def service_login():
             userCache.cache_user(user, session.sid)
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('service.service_index', SID = session.sid))
-        data = { 'error':['Invalid username or password.']}
+        data = { 'error': { 'message' : ['Invalid username or password.']}, 'success': False}
     else:
-        data = { 'error' : form.errors }
+        data = { 'error' : form.errors, 'success': False }
     return jsonify(data)
 
 @service.route('/logout/')
@@ -78,7 +78,7 @@ def service_resend_credentials():
         password = random_password()
         user = User.query.filter_by(email = form.email.data.lower()).first()
         if not user:
-            data = { 'error' : ['No such registered user.'], 'success': False }
+            data = { 'error' : { 'message' : ['No such registered user.']}, 'success': False }
             return jsonify(data)
         user.set_password(password)
         db.session.add(user)
