@@ -2,4 +2,4 @@
 
 from flask import Blueprint
 service = Blueprint('service', __name__)
-from . import login, register, searches
+from . import login, register, searches, bookings
