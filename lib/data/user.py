@@ -22,5 +22,5 @@ class UserCache():
         try:
             return self.cache.delete(self.namespace+sid)
         except:
-            print "Problem in deleting"
+            #print "Problem in deleting"
             return None

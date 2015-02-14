@@ -1,0 +1,47 @@
+-- Apllication Name : UserProfile
+
+
+------------- Deployment Notes ----------------------------
+
+-- Code Base
+
+    1) Clone FNFlight GIT repo
+        
+        $ git clone <Repo Server>:UserProfile
+    
+    
+    2) Deploy code
+        
+        - UserProfile          to   /Path/TO/APPLICATION
+        
+-- Configure UserProfile
+
+    File : UserProfile/config.py
+
+    Configure application to set database and memcached server details,
+    SMTP, to set various application components etc.
+    
+-- Install System dependency
+    
+    Linux (Debian, Ubuntu)
+    apt-get install python-virtualenv, memcached, swig, python-dev, libssl-dev
+
+-- create virtual environment
+   cd UserProfile
+   virtualenv venv
+   
+-- Activate Virtual environment
+    
+    source UserProfile/venv/bin/activate
+    
+-- Install python dependency
+
+    pip install -r requirements.txt
+    
+-- Test UserProfile
+
+    python manage.py test
+    
+-- Run UserProfile server
+
+    python manage.py runserver
