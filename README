@@ -24,7 +24,7 @@
 -- Install System dependency
     
     Linux (Debian, Ubuntu)
-    apt-get install python-virtualenv, memcached, swig, python-dev, libssl-dev
+    apt-get install python-virtualenv memcached swig python-dev libssl-dev sqlite3
 
 -- create virtual environment
    cd UserProfile
@@ -45,3 +45,5 @@
 -- Run UserProfile server
 
     python manage.py runserver
+
+    access http://localhost:5000/userapi/
