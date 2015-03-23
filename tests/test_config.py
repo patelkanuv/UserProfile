@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from tests.test_basics import BasicsTestCase
-from config import Config
+from UserProfileConfig import config
 
 class ConfigTests(BasicsTestCase):
     def test_TESTING(self):        

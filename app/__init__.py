@@ -7,7 +7,7 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.session import Session
-from config import config
+from UserProfileConfig import config
 import wtforms_json
 
 wtforms_json.init()
