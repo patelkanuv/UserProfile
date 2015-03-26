@@ -24,7 +24,7 @@
 -- Install System dependency
     
     Linux (Debian, Ubuntu)
-    apt-get install python-virtualenv memcached swig python-dev libssl-dev sqlite3
+    apt-get install python-virtualenv memcached swig python-dev libssl-dev sqlite3 apache2 libapache2-mod-wsgi
 
 -- create virtual environment
    cd UserProfile

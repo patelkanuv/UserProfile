@@ -11,7 +11,7 @@ class Config(object):
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <kanu.patel@flightnetwork.com>'
     FLASKY_ADMIN = 'patelkanuv@gmail.com'
-    MAIL_SERVER = '192.168.3.3'
+    MAIL_SERVER = 'localhost'
     #MAIL_PORT = 587
     #MAIL_USE_TLS = True
     #MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
