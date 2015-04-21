@@ -73,8 +73,8 @@ class Booking(db.Model):
             'query'             : {
                 'from'  : self.DFrom,
                 'to'    : self.Dto,
-                'Depart Date'   : self.DepDate,
-                'Return Date'   : self.RetDate,
+                'DepartDate'   : self.DepDate,
+                'ReturnDate'   : self.RetDate,
                 'Airline'       : self.Airline,
                 'TripType'      : self.TripType,
                 'FareType'      : self.FareType,
